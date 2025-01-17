@@ -21,6 +21,12 @@ int main(){
 
             mp[category].push_back(name);
         }
+
+        int res{1};
+        for(auto iter = mp.begin(); iter !=mp.end(); ++iter){
+            res *= iter->second.size();
+        }
+        cout << --res << endl;
     }
 
     return 0;
