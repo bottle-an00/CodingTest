@@ -4,8 +4,8 @@ using namespace std;
 #define L 0
 int basket_size{0};
 bool is_possible(int apple_position, int current_basket_position){
-    int distance = apple_position - current_basket_position;
-    return distance <= basket_size && distance > 0;
+    int differ = apple_position - current_basket_position;
+    return differ <= basket_size && differ >= 0;
 }
 int direction(int apple_position, int current_basket_position){
     return (apple_position - current_basket_position > 0) ? 1 : 0;
@@ -34,12 +34,11 @@ int main(){
     cin >> apple_count;
     cin.ignore();
     for(int i = 0; i < apple_count; ++i){
-        cout << "current b_c : " << current_basket_position << endl;
         int position;
         cin >> position;
         result += solve_2828(position, current_basket_position);
     }
 
-    cout << result;
+    cout << result << endl;
     return 0;
 }
