@@ -4,6 +4,7 @@
 #include <string>
 using namespace std;
 const int dx[] = {-1,0,1,0}, dy[] = {0,-1,0,1},MAX =1501;
+bool visited[MAX][MAX] = {false};
 int map[MAX][MAX], R, C, cnt{0};
 bool flag = false ;
 bool is_water[MAX][MAX] = {false};
@@ -31,10 +32,11 @@ void melting_ice(int u, int v){
         }
     }
 } 
+
 void BFS(){
     queue<pair<int,int>> que;
     que.push(s);
-    bool visited[MAX][MAX] = {false};
+    fill(&visited[0][0],&visited[0][0]+MAX*MAX,false);
     visited[s.first][s.second] = true;
 
     while(que.size()){
