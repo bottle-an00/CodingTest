@@ -26,22 +26,21 @@ void check(int x){
 }
 
 void toggle(int x){
-    if(S & 1 << x) S & ~(1 << x);
+    if(S & (1 << x)) S &= ~(1 << x);
     else S |= 1 << x;
 }
 
 void all(){
-    S = 1 << 20 -1;
+    S = (1 << 25) -1;
 } 
 
-void empty(int x){
+void empty(){
     S = 0;
 }
 
-void solve_11723(string str, int x=0){
+void solve_11723(string str, int x){
     int idx = check_func(str);
     if(idx == -1) cout <<"Invalid Function Name\n";
-
     switch(idx){
         case 0:
             add(x);
@@ -59,7 +58,7 @@ void solve_11723(string str, int x=0){
             all();
             break;
         case 5:
-            empty(x);
+            empty();
             break;
         default:
             cout << "Invalid idx!\n";
@@ -67,22 +66,19 @@ void solve_11723(string str, int x=0){
 }
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);cout.tie(nullptr);
     cin >> M;
-    vector<string> funcDB;
-    vector<int> xDB;
     cin.ignore();
     for(int i = 0; i < M; ++i){
         int x{};
         string str;
         cin >> str;
-        funcDB.push_back(str);
         if(str != "all" && str != "empty") {
             cin >> x; 
         }
-        xDB.push_back(x);
+        solve_11723(str,x);
     }
-    for(int i = 0; i < funcDB.size(); ++i){
-        solve_11723(funcDB[i],xDB[i]);
-    }
+        
     return 0;
 }
