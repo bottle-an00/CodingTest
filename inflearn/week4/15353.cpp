@@ -3,9 +3,10 @@
 #include <vector>
 
 using namespace std;
-string sum_bignumber(string& bigger, string& smaller){
+string sum_bignumber(string bigger, string smaller){
     int min_size = smaller.size();
     int max_size = bigger.size();
+    cout << min_size << " " << max_size << endl;
     vector<int> result;
     result.assign(max_size + 1,' ');
 
@@ -18,15 +19,17 @@ string sum_bignumber(string& bigger, string& smaller){
         result[i] = value;
         cout << result[i];
     }
-    // for(int i = min_size; i < max_size; ++i){
-    //     int sum = (bigger[bigger.size() - i - 1] - '0' + carry);
-    //     int value = sum % 10;
-    //     carry = sum / 10;
+    for(int i = min_size; i < max_size; ++i){
+        if(min_size == max_size) 
+        int sum = (bigger[bigger.size() - i - 1] - '0' + carry);
+        int value = sum % 10;
+        carry = sum / 10;
         
-    //     result[i] = value;
-    //     cout << result[i];
-    // }
+        result[i] = value;
+        cout << result[i];
+    }
     string rresult;
+    cout << endl;
     for(int i = max_size; i > 0; --i){
         rresult += to_string(result[i]);
     }
