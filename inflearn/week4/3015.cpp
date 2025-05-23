@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stack>
-
+using ii = std::pair<int,int>;
 using namespace std;
 
 int N{};
@@ -11,22 +11,29 @@ int main(){
     
     cin >> N;
 
-    int cnt{};   
-    stack<int> stk;
+    long long cnt{};   
+    stack<ii> stk;
     for(int i{}; i < N; ++i){
-        int e;
-        bool flag = false;
+        int e,same{1};
         cin >> e;
+
         if(stk.empty()){
-            stk.push(e);
+            stk.emplace(e,1);
         }else{
-            while(!stk.empty() && e > stk.top()){
+            
+            while(!stk.empty() && e >= stk.top().first){
+                cnt += stk.top().second;
+
+                if(stk.top().first == e){
+                    same = stk.top().second + 1;
+                }
+
                 stk.pop();
-                cnt++;
-                flag = true;
             }
-            stk.push(e);
-            if(!flag)cnt++;
+            
+            if(!stk.empty()) ++cnt; 
+
+            stk.emplace(e,same);
         }
     }
 
