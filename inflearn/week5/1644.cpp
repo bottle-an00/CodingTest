@@ -19,7 +19,7 @@ int main(){
             }
         }
     }
-    
+
     vector<int> prime_number;
     for (int i{2}; i <= N; ++i){
         if(is_prime[i]) prime_number.push_back(i);
@@ -30,7 +30,7 @@ int main(){
         if (sum >= N) sum -= prime_number[l++];
         else if (r == prime_number.size()) break;
         else sum += prime_number[r++];
-        
+
         if (sum == N) res++;
     }
 

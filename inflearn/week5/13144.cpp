@@ -4,7 +4,8 @@
 
 using namespace std;
 
-int N{}, res{};
+int N{};
+long long res{};
 
 int main(){
     ios::sync_with_stdio(false);
@@ -13,18 +14,15 @@ int main(){
     cin >> N;
     vector<int> info(N+1);
     for(int i{}; i < N; ++i) {cin >> info[i];}
-    
-    int l{},r{};
-    vector<int> v;
-    v.push_back(info[l]);
-    while(true){
-        bool y = (find(v.begin(),v.end(), info[r]) != v.end()) ? true : false;
-        if(y) l++;
-        else {
-            r++; res++;
-            v.push_back(info[r]);
+
+    int r{};
+    vector<int> v(N+1,0);
+    for(int l{}; l < N; ++l){
+        while(r < N && v[info[r]] == 0){
+            v[info[r++]] = 1;
         }
-        if(r == N) break;
+        res += r - l;
+        v[info[l]] = 0;
     }
     cout << res;
     return 0;
