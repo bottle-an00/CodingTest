@@ -7,7 +7,14 @@ using namespace std;
 int N{},M{},db[8][8],res{numeric_limits<int>::max()};
 const pair<int,int> dir[4] = {{-1,0},{0,1},{1,0},{0,-1}};
 vector<pair<int,int>> v;
-
+vector<vector<int>> t={
+                    {},
+                    {0},
+                    {0,2},
+                    {0,1},
+                    {0,1,2},
+                    {0,1,2,3}
+};
 
 int count(int new_db[8][8]){
     int cnt{};
@@ -20,20 +27,27 @@ int count(int new_db[8][8]){
 }
 
 void go(int idx, int new_db[8][8]){
-    if(idx >= v.size()-1){
+    if(idx == v.size()){
         res = min(res, count(new_db));
+        return;
     }
-
+    int tmp[8][8];
+    memcpy(tmp,new_db,sizeof(int)*8*8);
+    int type = db[v[idx].first][v[idx].second];
     for(int i{}; i < 4; ++i){
-        int nr = v[idx].first;   
-        int nc = v[idx].second;
-        while(1){
-            nr += dir[i].first;
-            nc += dir[i].second;
-            if(nc < 0 || nr < 0 || nc >= M || nr >= N) break;
-            new_db[nr][nc] = 7;
-        }   
-        go(idx +1, new_db);
+        for(auto e: t[type]){
+            int nr = v[idx].first;   
+            int nc = v[idx].second;
+            while(1){
+                nr += dir[(i+e)%4].first;
+                nc += dir[(i+e)%4].second;
+                if(nc < 0 || nr < 0 || nc >= M || nr >= N) break;
+                if(tmp[nr][nc] == 6) break;
+                tmp[nr][nc] = 7;
+            }
+        }
+        go(idx + 1, tmp);
+        memcpy(tmp, new_db, sizeof(int)*8*8);
     }
 }
 
@@ -46,10 +60,8 @@ int main(){
             if(db[r][c] > 0 && db[r][c] < 6) v.emplace_back(r,c);
         }
     }
-    cout << v.size() << endl;
-    int new_db[8][8];
-    memcpy(new_db,db,sizeof(db));
-    go(0,new_db);
-
+    
+    go(0,db);
+    cout << res;
     return 0;
 }
