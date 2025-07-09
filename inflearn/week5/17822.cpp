@@ -7,13 +7,21 @@ const int dr[4] = {-1,0,1,0};
 const int dc[4] = {0,-1,0,1};
 int N{},M{},T{},db[54][54],ndb[54][54],res{};
 vector<tuple<int,int,int>> info;
+void show_db(){
+    for(int r{}; r < N; ++r){
+        for(int c{}; c < M; ++c){
+            cout << db[r][c] << " ";
+        }
+        cout << endl;
+    }
+}
 void rotate(tuple<int,int,int> e, int src[54][54], int dst[54][54]){
     int x = get<0>(e), d = get<1>(e), k = get<2>(e); 
     memcpy(dst,src,sizeof(int)*54*54);
     int cnt{1};
     while(x * cnt < N){
         for(int r{}; r < N; ++r){
-            if(r == x * cnt){
+            if(r == x * cnt -1){
                 for(int c{}; c < M; ++c){
                     dst[r][(c + d*k + M) % M] = src[r][c];
                 }
@@ -54,6 +62,7 @@ void solve(){
             }
         }
         memcpy(db,ndb,sizeof(int)*N*M);
+        show_db();
     }
 }
 
@@ -72,6 +81,8 @@ int main(){
     }
 
     solve();
+
+    count_left(db);
     cout << res;
     return 0;
 }
