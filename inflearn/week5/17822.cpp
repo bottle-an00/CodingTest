@@ -8,13 +8,14 @@ const int dc[4] = {0,-1,0,1};
 int N{},M{},T{},db[54][54],ndb[54][54],res{};
 vector<tuple<int,int,int>> info;
 void rotate(tuple<int,int,int> e, int src[54][54], int dst[54][54]){
+    int x = get<0>(e), d = get<1>(e), k = get<2>(e); 
     memcpy(dst,src,sizeof(int)*54*54);
     int cnt{1};
-    while(get<0>(e)*cnt < N){
+    while(x * cnt < N){
         for(int r{}; r < N; ++r){
-            if(r == get<0>(e)*cnt){
+            if(r == x * cnt){
                 for(int c{}; c < M; ++c){
-                    
+                    dst[r][(c + d*k + M) % M] = src[r][c];
                 }
             }
         }
@@ -22,13 +23,37 @@ void rotate(tuple<int,int,int> e, int src[54][54], int dst[54][54]){
     }
 }
 
-void check_neighbor(){
+void check_neighbor(int r, int c, int src[54][54]){
+    int cnt{};
+    for(int i{}; i < 4; ++i){
+        int nr = r + dr[i];
+        int nc = c + dc[i];
+        if(src[nr][nc] == src[r][c]) {
+            cnt++;
+            src[nr][nc] = 0;
+        }
+    }
+    if(cnt) src[r][c] = 0;
+}
 
+void count_left(int src[54][54]){
+    for(int r{}; r < N; ++r){
+        for(int c{}; c < M; ++c){
+            if(src[r][c]) res += src[r][c];
+        }
+    }
 }
 
 void solve(){
     for(auto e : info){
         rotate(e,db,ndb);
+
+        for(int r{}; r < N; ++r){
+            for(int c{}; c < M; ++c){
+                check_neighbor(r, c,ndb);
+            }
+        }
+        memcpy(db,ndb,sizeof(int)*N*M);
     }
 }
 
