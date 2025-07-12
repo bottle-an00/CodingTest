@@ -3,7 +3,7 @@
 #include <vector>
 
 using namespace std;
-int N{},M{},res{numeric_limits<int>::max()},max_l{numeric_limits<int>::min()};
+int N{},M{},sum{},res{numeric_limits<int>::max()},max_l{numeric_limits<int>::min()};
 vector<int> v;
 
 bool check_possible(int mid){
@@ -14,7 +14,7 @@ bool check_possible(int mid){
             left_money = mid -e;
             cnt++;
         }
-        if(left_money >= e){
+        else if(left_money >= e){
             left_money -= e;
         }
         if(cnt > M) return false;
@@ -28,8 +28,9 @@ int main(){
     for(int i{}; i < N; ++i){
         cin >> v[i];
         max_l = max(max_l,v[i]);
+        sum += v[i];
     }
-    int l{1},r{max_l*M};
+    int l{max_l},r{sum};
     while(l<=r){
         int mid = (l+r) / 2;
         if(check_possible(mid)){
