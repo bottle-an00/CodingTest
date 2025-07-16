@@ -1,17 +1,19 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <stack>
 
 using namespace std;
 using ll = long long;
 
 const int T = 1000004;
 
-ll N;
-ll a[T], dp_idx[T], before[T];
+ll N{}, a[T], cnt[T], prev_idx[T], tracking[T];
 
-vector<ll> lis;
+void print_lis(ll idx) {
+    if (idx == -1) return;
+    print_lis(prev_idx[idx]);
+    cout << a[idx] << " ";
+}
 
 int main() {
     ios::sync_with_stdio(false);
@@ -23,8 +25,7 @@ int main() {
     }
 
     vector<ll> v;
-    ll len = 0;
-    
+    ll idx{};
     for(ll i = 0; i < N; ++i){
         auto it = lower_bound(v.begin(), v.end(), a[i]);
         ll pos = it - v.begin();
@@ -33,37 +34,18 @@ int main() {
         } else {
             *it = a[i];
         }
-        dp_idx[i] = pos;
-        // LIS 수열 재구성을 위한 추적용
-        if(pos == 0) before[i] = -1;
+        cnt[i] = pos;
+        
+        if(pos == 0) prev_idx[i] = -1;
         else {
-            for(ll j = i - 1; j >= 0; --j){
-                if(dp_idx[j] == pos - 1 && a[j] < a[i]){
-                    before[i] = j;
-                    break;
-                }
-            }
+            prev_idx[i] = tracking[pos - 1];
+            if(cnt[i] == v.size() - 1) idx = i;
         }
+        tracking[pos] = i;
     }
 
-    // LIS 길이
     cout << v.size() << "\n";
-
-    // LIS 수열 역추적
-    stack<ll> stk;
-    ll idx = -1;
-    ll target = v.size() - 1;
-    for(ll i = N - 1; i >= 0; --i){
-        if(dp_idx[i] == target){
-            stk.push(a[i]);
-            target--;
-        }
-    }
-
-    while(!stk.empty()){
-        cout << stk.top() << " ";
-        stk.pop();
-    }
+    print_lis(idx);
 
     return 0;
 }
