@@ -21,32 +21,34 @@ void bfs(){
     queue<ii> que;
     que.emplace(0,0);
     des1[0][0] = 1;
+
     while(!que.empty()){
         ii prev = que.front(); que.pop();
         for(int i{}; i < 4; ++i){
             int ny = prev.first + dy[i];
             int nx = prev.second + dx[i];
-            
+
             if(ny < 0 || ny >= N || nx < 0 || nx >= M) continue;
             if(des2[ny][nx]) continue;
             if(db[ny][nx]){//cheese
 
                 if(des1[ny][nx]) des2[ny][nx] = 1;
                 else des1[ny][nx] = 1;
-                
+
             }else{//not cheese
+                if(des1[ny][nx]) continue;
                 des1[ny][nx] = 1;
                 que.emplace(ny,nx);
             }
         }
 
-    } 
+    }
 }
 
 void remove_cheese(){
     for(int y{}; y < N; ++y){
         for(int x{}; x < M; ++x){
-            if(des2[y][x]) db[y][x] = 0;  
+            if(des2[y][x]) db[y][x] = 0;
         }
     }
 }
@@ -54,7 +56,6 @@ void remove_cheese(){
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    cout << ans << "\n";
 
     cin >> N >> M;
     fill(&db[0][0],&db[0][0]+102*102,0);
