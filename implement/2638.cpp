@@ -54,7 +54,7 @@ void remove_cheese(){
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    cout << ans << "\n";
+    cout << "fuck!!!" << "\n";
 
     cin >> N >> M;
     fill(&db[0][0],&db[0][0]+102*102,0);
